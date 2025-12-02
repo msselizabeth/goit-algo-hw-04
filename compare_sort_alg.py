@@ -1,25 +1,6 @@
 import copy
 import timeit
-
-#  Array to sort
-# arr = [5, 6, 2, 8, 1, 9, 3, 4, 7]
-arr = [15, 3, 27, 8, 42, 19, 33, 7, 21, 4, 50, 2, 11, 39, 6]
-
-
-# Built-in sorted
-sorted_arr_py = sorted(arr)
-print(f"Sorted array by Python: {sorted_arr_py}")
-
-# Measure runtime for built-in sorted
-sorted_time = timeit.timeit(lambda: sorted(arr), number=1000)
-print(f"Built-in sorted runtime: {sorted_time:.6f} seconds")
-
-# Built-in sort()
-copy_arr = copy.copy(arr)
-
-# Measure runtime for built-in sort()
-sort_method_time = timeit.timeit(lambda: copy_arr.sort(), number=1000)
-print(f"Built-in Sort() runtime: {sort_method_time:.6f} seconds")
+import random
 
 
 # Insertion sort
@@ -36,14 +17,6 @@ def insertion_sort(array):
         arr[j + 1] = key
 
     return arr
-
-
-insert_arr = insertion_sort(arr)
-print(f"Insertion sort: {insert_arr}")
-
-# Measure runtime for insertion sort
-insertion_sort_time = timeit.timeit(lambda: insertion_sort(arr), number=1000)
-print(f"Insertion sort runtime: {insertion_sort_time:.6f} seconds")
 
 
 # Merge sort
@@ -76,9 +49,29 @@ def merge(left, right):
     return sorted_array
 
 
-merge_sorted_arr = merge_sort(arr)
-print(f"Merge sort: {merge_sorted_arr}")
+# Test data
 
-# Measure runtime for merge sort
-merge_sort_time = timeit.timeit(lambda: merge_sort(arr), number=1000)
-print(f"Merge sort runtime: {merge_sort_time:.6f} seconds")
+test_data = {
+    "small_random": [random.randint(1, 100) for _ in range(10)],
+    "large_random": [random.randint(1, 1000) for _ in range(1000)],
+    "sorted": list(range(1, 101)),
+    "reversed": list(range(100, 0, -1)),
+    "duplicates": [random.choice([1, 2, 3]) for _ in range(100)],
+}
+
+
+for name, data in test_data.items():
+    print(f"Testing on {name} dataset:")
+    print(
+        f"Built-in sorted: {timeit.timeit(lambda: sorted(data), number=1000):.6f} seconds"
+    )
+    print(
+        f"Built-in sort(): {timeit.timeit(lambda: copy.copy(data).sort(), number=1000):.6f} seconds"
+    )
+    print(
+        f"Insertion sort: {timeit.timeit(lambda: insertion_sort(data), number=1000):.6f} seconds"
+    )
+    print(
+        f"Merge sort: {timeit.timeit(lambda: merge_sort(data), number=1000):.6f} seconds"
+    )
+    print()
